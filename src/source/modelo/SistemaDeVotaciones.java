@@ -37,11 +37,19 @@ public class SistemaDeVotaciones {
 		return datos;
 	}
 	
+	public boolean haVotado(String dni){
+		return GestorVotacionUser.getGVotacion().haVotado(dni);
+	}
+	
 	public void votar(String dni, String alter){
 		//TODO puede hacer falta la IP del ordenador del votante
 		//if(!haVotado(dni))
 		GestorVotacionUser.getGVotacion().votar(dni, alter);
 	
+	}
+	
+	public ArrayList<Alternativa> obtAlternativasInscritas(int CodV){
+		return GestorVotacionUser.getGVotacion().obtAlternativasInscritas(CodV);
 	}
 	
 }

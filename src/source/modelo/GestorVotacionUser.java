@@ -174,7 +174,7 @@ public class GestorVotacionUser {
 					BufferedImage img = null;
 					try {
 						img = ImageIO.read(new ByteArrayInputStream(data));
-						Alternativa a = new Alternativa(r.getString("Nombre"), img, r.getString("Descripcion"));
+						Alternativa a = new Alternativa(r.getString("Nombre"), img, r.getString("Descrip"));
 						alter.add(a);
 					} catch (IOException e) {
 						e.printStackTrace();
