@@ -48,6 +48,7 @@ public class Waiting extends JFrame {
 	 * Create the frame.
 	 */
 	public Waiting() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Waiting.class.getResource("/resources/icono.ico")));
 		
 		setTitle("Esperando a iniciar una Votación ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,6 +73,7 @@ public class Waiting extends JFrame {
 	
 	private static void esperarActiva(){
 		if(HiloActiva.getHilo().getCodV()!=0){
+		SistemaDeVotaciones.getSistema().setCodVotacion(HiloActiva.getHilo().getCodV());
 		Identificarse ident = new Identificarse(HiloActiva.getHilo().getCodV());
 		Dimension pantalla= Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension ventana = ident.getSize();

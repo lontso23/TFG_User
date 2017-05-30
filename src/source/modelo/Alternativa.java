@@ -10,7 +10,7 @@ public class Alternativa {
 	private String descrip;
 	
 	public Alternativa(String n, Image logo, String des){
-		this.nombre = nombre;
+		this.nombre = n;
 		this.logo = logo;
 		this.descrip = des;
 	}

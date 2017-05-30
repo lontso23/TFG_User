@@ -82,6 +82,29 @@ public class GestorVotacionUser {
 		return haVotado;
 	}
 	
+	public boolean esta(String dni){
+		PreparedStatement ps;
+		String sentencia = "Select Votado From VotosPersona WHERE DniP = ? AND CodV = ?";
+		String votado="";
+		boolean esta=true;
+		try {
+			ps = SGBD.getConexion().getConnection().prepareStatement(sentencia);
+			ps.setString(1, dni);
+			ps.setInt(2, getCodVotacion());
+			SGBD.getConexion().Select(ps);
+			ResultSet r = SGBD.getConexion().Select(ps);
+			while (r.next()){
+				votado=r.getString("Votado");
+			}
+			SGBD.getConexion().cerrarSelect(r);
+		} catch (SQLException e) {e.printStackTrace();
+		}
+		if(votado.equals("")){
+			esta=false;
+		}
+		return esta;
+	}
+	
 	
 	private void añadirVotosVotante(String dni){
 		PreparedStatement ps;

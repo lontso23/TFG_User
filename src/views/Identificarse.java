@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -19,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import source.bd.SGBD;
 import source.modelo.SistemaDeVotaciones;
 
 import javax.swing.JButton;
@@ -54,6 +56,7 @@ public class Identificarse extends JFrame {
 				try {
 					Identificarse frame = new Identificarse(0);
 					frame.setVisible(true);
+					SGBD.getConexion().conectar();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -65,6 +68,7 @@ public class Identificarse extends JFrame {
 	 * Create the frame.
 	 */
 	public Identificarse(int codV) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Waiting.class.getResource("/resources/icono.ico")));
 		setCodV(codV);
 		setTitle("Bienvenido, introduzca su DNIe ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -151,10 +155,8 @@ public class Identificarse extends JFrame {
 	private JLabel getLabel_1() {
 		if (lblTextoExpli == null) {
 			lblTextoExpli = new JLabel("");
-			lblTextoExpli.setText("Introduzca su DNIe en el lector de tarjetas"
-					+ " y pulse el botón Play");
-			lblTextoExpli.setFont(new java.awt.Font("Tahoma", 2, 20));
-			lblTextoExpli.setForeground(UIManager.getColor("Button.highlight"));
+			lblTextoExpli.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/manus.png")));
+			lblTextoExpli.setText("                                                ");
 		}
 		return lblTextoExpli;
 	}
@@ -166,27 +168,38 @@ public class Identificarse extends JFrame {
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/PlayPulsado.png")));
-					List<String> datos = new ArrayList<>();
+					/*List<String> datos = new ArrayList<>();
 					datos = SistemaDeVotaciones.getSistema().identificar();
 					if(datos==null){
 						Object msj = "Tu Dni no se ha podido leer correctamente" ;
 						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE); 
-					}else{
+					}else if(!SistemaDeVotaciones.getSistema().esta(datos.get(0))){
+						Object msj = "No estás registrado para esta votación" ;
+						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
+					}else if(SistemaDeVotaciones.getSistema().haVotado(datos.get(0))){
+						Object msj = "Ya has registrado tu voto" ;
+						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
+					}
+					else{
 						//Votar vota = new Votar(datos.get(0), datos.get(1), getCodV());
 						Votar vota = new Votar("79046076K", "MIKEL", 1);
 						vota.crearOpciones();
 						vota.setVisible(true);
 						dispose();
-					}
-					
+					}*/
+					Votar vota = new Votar("79046076K", "MIKEL", 1);
+					vota.crearOpciones();
+					vota.setVisible(true);
+					dispose();
 				}
 				
 				@Override
 				public void mouseReleased(MouseEvent e) {}
 				
 				@Override
-				public void mousePressed(MouseEvent e) {}
+				public void mousePressed(MouseEvent e) {
+					lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/PlayPulsado.png")));
+				}
 				
 				@Override
 				public void mouseExited(MouseEvent e) {}
