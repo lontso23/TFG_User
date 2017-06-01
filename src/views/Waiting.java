@@ -74,11 +74,11 @@ public class Waiting extends JFrame {
 	private static void esperarActiva(){
 		if(HiloActiva.getHilo().getCodV()!=0){
 		SistemaDeVotaciones.getSistema().setCodVotacion(HiloActiva.getHilo().getCodV());
-		Identificarse ident = new Identificarse(HiloActiva.getHilo().getCodV());
+		Identificarse.getIndentificarse().setCodV(HiloActiva.getHilo().getCodV());
 		Dimension pantalla= Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension ventana = ident.getSize();
-		ident.setLocation((pantalla.width-ventana.width)/2, (pantalla.height-ventana.height)/2);
-		ident.setVisible(true);
+		Dimension ventana = Identificarse.getIndentificarse().getSize();
+		Identificarse.getIndentificarse().setLocation((pantalla.width-ventana.width)/2, (pantalla.height-ventana.height)/2);
+		Identificarse.getIndentificarse().setVisible(true);
 		}
 	}
 	

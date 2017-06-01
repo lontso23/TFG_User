@@ -44,7 +44,7 @@ package views;
 		 public void paint(Graphics g) {
 
 		  if(bgImage != null) {
-		   g.drawImage(bgImage, 0, 0, 1000, 600, null);
+		   g.drawImage(bgImage, 0, 0, 1000, 650, null);
 		  }
 
 		  super.paint(g);

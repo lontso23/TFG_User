@@ -99,6 +99,7 @@ public class GestorVotacionUser {
 			SGBD.getConexion().cerrarSelect(r);
 		} catch (SQLException e) {e.printStackTrace();
 		}
+		
 		if(votado.equals("")){
 			esta=false;
 		}

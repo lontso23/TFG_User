@@ -4,13 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -33,6 +37,8 @@ public class Votar extends JFrame {
 	private String nombre;
 	private int codV;
 	private JButton btnVotar;
+	private String alternativa=null;
+
 
 	/**
 	 * Launch the application.
@@ -74,6 +80,14 @@ public class Votar extends JFrame {
 	
 	
 	
+	public String getAlternativa() {
+		return alternativa;
+	}
+
+	public void setAlternativa(String alternativa) {
+		this.alternativa = alternativa;
+	}
+
 	public String getDni() {
 		return dni;
 	}
@@ -109,24 +123,6 @@ public class Votar extends JFrame {
 			panel = new Fondo();
 			panel.setLayout(new GridLayout(1, 0, 0, 0));
 			panel.add(getBtnVotar());
-			/*GroupLayout gl_panel = new GroupLayout(panel);
-			gl_panel.setHorizontalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-					.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-						.addContainerGap(674, Short.MAX_VALUE)
-						.addComponent(getBtnVotar(), GroupLayout.PREFERRED_SIZE, 192, GroupLayout.PREFERRED_SIZE)
-						.addGap(124))
-			);
-			gl_panel.setVerticalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-					.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-						.addContainerGap(464, Short.MAX_VALUE)
-						.addComponent(getBtnVotar(), GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-						.addGap(39))
-			);
-			panel.setLayout(gl_panel);*/
-			
-			
 		}
 		return panel;
 	}
@@ -142,12 +138,12 @@ public class Votar extends JFrame {
 		for(int i=0; i<alter.size();i++){
 			Alternativa act = alter.get(i);
 			JLabel lb = new JLabel();
-			lb.setName(act.getNombre()+",,,,");
+			lb.setName(act.getNombre());
 			lb.setIcon(new ImageIcon(act.getLogo()));
 			lb.setText(act.getDescrip());
 			lb.setForeground(UIManager.getColor("Button.highlight"));
 			lb.addMouseListener(controlador);
-			lb.setBounds(0, 0, 100, 50);
+			lb.setBounds(0, 0, 50, 50);
 			gridPanel.add(lb);
 		}
 		getContentPane().add(gridPanel);
@@ -161,12 +157,19 @@ public class Votar extends JFrame {
 			int queBotonRaton;
 			// para elegir boton del raton e.getButton
 			queBotonRaton = e.getButton();
-			String c = e.getSource().toString().substring(19, 30);
-			String[] linea1 = c.split(",");
-			System.out.println(linea1[0]);
+			JLabel act = (JLabel) e.getSource();
 			if (queBotonRaton == 1) {
-				//TODO Marcar el label del partido clicado y añadir un boton para votar
-				//SistemaDeVotaciones.getSistema().votar(dni, linea1[0]);
+				System.out.println(act.isEnabled());
+				if(!act.isEnabled()){
+					act.setEnabled(true);
+					setAlternativa(null);
+				}else{
+					act.setEnabled(false);
+					setAlternativa(act.getName());
+				}
+				
+				
+				
 			} 
 		}
 
@@ -186,6 +189,21 @@ public class Votar extends JFrame {
 	private JButton getBtnVotar() {
 		if (btnVotar == null) {
 			btnVotar = new JButton("VOTAR");
+			btnVotar.addActionListener(new ActionListener() {
+				
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(!getAlternativa().equals(null)){
+						SistemaDeVotaciones.getSistema().votar(dni, alternativa);
+						String msj = "Muchas gracias por su colaboración! ";
+						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.INFORMATION_MESSAGE);
+						Identificarse.getIndentificarse().setVisible(true);
+						dispose();
+					}
+					
+				}
+			});
 		}
 		return btnVotar;
 	}

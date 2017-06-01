@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import source.bd.SGBD;
+import source.modelo.HiloActiva;
 import source.modelo.SistemaDeVotaciones;
 
 import javax.swing.JButton;
@@ -46,7 +47,7 @@ public class Identificarse extends JFrame {
 	private int codV;
 	private JLabel lblTextoExpli;
 	private JLabel lblLogoplay;
-	
+	private static Identificarse miId=new Identificarse();
 	/**
 	 * Launch the application.
 	 */
@@ -54,7 +55,7 @@ public class Identificarse extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Identificarse frame = new Identificarse(0);
+					Identificarse frame = new Identificarse();
 					frame.setVisible(true);
 					SGBD.getConexion().conectar();
 				} catch (Exception e) {
@@ -67,9 +68,8 @@ public class Identificarse extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Identificarse(int codV) {
+	private Identificarse() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Waiting.class.getResource("/resources/icono.ico")));
-		setCodV(codV);
 		setTitle("Bienvenido, introduzca su DNIe ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
@@ -83,7 +83,9 @@ public class Identificarse extends JFrame {
 
 	}
 	
-	
+	public static Identificarse getIndentificarse(){
+		return miId;
+	}
 	
 	public int getCodV() {
 		return codV;
@@ -163,34 +165,40 @@ public class Identificarse extends JFrame {
 	private JLabel getLblLogoplay() {
 		if (lblLogoplay == null) {
 			lblLogoplay = new JLabel("");
-			lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/Play.png")));
+			lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/next.png")));
 			lblLogoplay.addMouseListener(new MouseListener() {
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					/*List<String> datos = new ArrayList<>();
+					//QUITAR DESPUES!!!!!!!
+					//SistemaDeVotaciones.getSistema().setCodVotacion(1);
+					List<String> datos = new ArrayList<>();
 					datos = SistemaDeVotaciones.getSistema().identificar();
-					if(datos==null){
+					if(datos.equals(null)){
 						Object msj = "Tu Dni no se ha podido leer correctamente" ;
+						lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/next.png")));
 						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE); 
 					}else if(!SistemaDeVotaciones.getSistema().esta(datos.get(0))){
+						System.out.println("ESTA: "+datos.get(0)+" "+SistemaDeVotaciones.getSistema().esta(datos.get(0)) );
 						Object msj = "No estás registrado para esta votación" ;
+						lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/next.png")));
 						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
 					}else if(SistemaDeVotaciones.getSistema().haVotado(datos.get(0))){
 						Object msj = "Ya has registrado tu voto" ;
+						lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/next.png")));
 						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
 					}
 					else{
 						//Votar vota = new Votar(datos.get(0), datos.get(1), getCodV());
-						Votar vota = new Votar("79046076K", "MIKEL", 1);
+						Votar vota = new Votar(datos.get(0), datos.get(1), 1);
 						vota.crearOpciones();
 						vota.setVisible(true);
 						dispose();
-					}*/
-					Votar vota = new Votar("79046076K", "MIKEL", 1);
+					}
+					/*Votar vota = new Votar("79046076K", "MIKEL", 1);
 					vota.crearOpciones();
 					vota.setVisible(true);
-					dispose();
+					dispose();*/
 				}
 				
 				@Override
@@ -198,7 +206,7 @@ public class Identificarse extends JFrame {
 				
 				@Override
 				public void mousePressed(MouseEvent e) {
-					lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/PlayPulsado.png")));
+					lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/nextPulsado.png")));
 				}
 				
 				@Override
