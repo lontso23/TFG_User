@@ -68,7 +68,6 @@ public class GestorVotacionUser {
 			ps = SGBD.getConexion().getConnection().prepareStatement(sentencia);
 			ps.setString(1, dni);
 			ps.setInt(2, getCodVotacion());
-			SGBD.getConexion().Select(ps);
 			ResultSet r = SGBD.getConexion().Select(ps);
 			while (r.next()){
 				votado=r.getString("Votado");
@@ -86,22 +85,43 @@ public class GestorVotacionUser {
 		PreparedStatement ps;
 		String sentencia = "Select Votado From VotosPersona WHERE DniP = ? AND CodV = ?";
 		String votado="";
-		boolean esta=true;
+		boolean esta=false;
 		try {
 			ps = SGBD.getConexion().getConnection().prepareStatement(sentencia);
 			ps.setString(1, dni);
 			ps.setInt(2, getCodVotacion());
-			SGBD.getConexion().Select(ps);
 			ResultSet r = SGBD.getConexion().Select(ps);
+			System.out.println(ps.toString());
 			while (r.next()){
 				votado=r.getString("Votado");
 			}
 			SGBD.getConexion().cerrarSelect(r);
 		} catch (SQLException e) {e.printStackTrace();
 		}
-		
-		if(votado.equals("")){
-			esta=false;
+		if(votado.equals("N")){
+			esta=true;
+		}
+		return esta;
+	}
+	
+	public boolean comprobarPin(String dni, String pin){
+		PreparedStatement ps;
+		String sentencia = "Select Pin From Votante WHERE DniP = ?";
+		String cod="";
+		boolean esta=false;
+		try {
+			ps = SGBD.getConexion().getConnection().prepareStatement(sentencia);
+			ps.setString(1, dni);
+			ResultSet r = SGBD.getConexion().Select(ps);
+			
+			while (r.next()){
+				cod=r.getString("Pin");
+			}
+			SGBD.getConexion().cerrarSelect(r);
+		} catch (SQLException e) {e.printStackTrace();
+		}
+		if(cod.equals(pin)){
+			esta=true;
 		}
 		return esta;
 	}

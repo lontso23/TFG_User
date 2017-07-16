@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.smartcardio.CardException;
 
+import source.bd.SGBD;
 import source.dnie.DNIPublicData;
 
 public class SistemaDeVotaciones {
@@ -18,6 +19,7 @@ public class SistemaDeVotaciones {
 	}
 	
 	public static SistemaDeVotaciones getSistema(){
+		SGBD.getConexion().conectar();
 		return miSistema;
 	}
 	
@@ -27,6 +29,10 @@ public class SistemaDeVotaciones {
 	
 	public void setCodVotacion(int cod){
 		GestorVotacionUser.getGVotacion().setCodVotacion(cod);
+	}
+	
+	public int getCodVotacion(){
+		return GestorVotacionUser.getGVotacion().getCodVotacion();
 	}
 	
 	public List<String> identificar(){
@@ -43,6 +49,10 @@ public class SistemaDeVotaciones {
 	
 	public boolean esta(String dni){
 		return GestorVotacionUser.getGVotacion().esta(dni);
+	}
+	
+	public boolean comprobarPin(String dni, String pin){
+		return GestorVotacionUser.getGVotacion().comprobarPin(dni,pin);
 	}
 	
 	public void votar(String dni, String alter){

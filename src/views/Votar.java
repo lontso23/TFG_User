@@ -129,7 +129,7 @@ public class Votar extends JFrame {
 	
 	public void crearOpciones(){
 		ArrayList<Alternativa> alter= new ArrayList<Alternativa>();
-		alter = SistemaDeVotaciones.getSistema().obtAlternativasInscritas(1);
+		alter = SistemaDeVotaciones.getSistema().obtAlternativasInscritas(getCodV());
 		GridLayout gPanel = new GridLayout(alter.size()/2, 2);
 		gPanel.setVgap(0);
 		gPanel.setHgap(0);
@@ -137,6 +137,7 @@ public class Votar extends JFrame {
 		gridPanel.setBackground(new Color(0,0,0,65));
 		for(int i=0; i<alter.size();i++){
 			Alternativa act = alter.get(i);
+			System.out.println(act.getNombre());
 			JLabel lb = new JLabel();
 			lb.setName(act.getNombre());
 			lb.setIcon(new ImageIcon(act.getLogo()));
@@ -159,7 +160,6 @@ public class Votar extends JFrame {
 			queBotonRaton = e.getButton();
 			JLabel act = (JLabel) e.getSource();
 			if (queBotonRaton == 1) {
-				System.out.println(act.isEnabled());
 				if(!act.isEnabled()){
 					act.setEnabled(true);
 					setAlternativa(null);

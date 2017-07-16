@@ -129,7 +129,7 @@ public class DNIeCard {
         else{
             throw new CardException("No se encuentra la tarjeta");
         }
-        System.out.println("CLASE DNIeCard : \n"+publicData);
+        
         return publicData;
     }
 

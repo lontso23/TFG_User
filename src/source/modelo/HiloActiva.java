@@ -1,6 +1,8 @@
 package source.modelo;
 
-public class HiloActiva extends Thread {
+import java.util.Observable;
+
+public class HiloActiva   extends Observable{
 	private Thread hilo;
 	private static HiloActiva miHilo=new HiloActiva();
 	private int codV=0;
@@ -33,17 +35,22 @@ public class HiloActiva extends Thread {
 	}
 
 	public void run() {
+		
 		while(codV==0){
-			codV=SistemaDeVotaciones.getSistema().comprobarActiva();
-			System.out.println(codV);
+			codV = SistemaDeVotaciones.getSistema().comprobarActiva(); 
+			
 		}
+		setChanged();
+		notifyObservers(codV);
+		
+		
 		setCodV(codV);
-		setFin(true);
+		
 	  }
 
 	  public void start () {
 	    if (hilo == null) {
-	      hilo = new Thread (this);
+	      hilo = new Thread ();
 	      hilo.start();
 	    }
 	  }

@@ -30,6 +30,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -172,28 +174,34 @@ public class Identificarse extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					//QUITAR DESPUES!!!!!!!
 					//SistemaDeVotaciones.getSistema().setCodVotacion(1);
+					System.out.println(getCodV());
 					List<String> datos = new ArrayList<>();
 					datos = SistemaDeVotaciones.getSistema().identificar();
 					if(datos.equals(null)){
 						Object msj = "Tu Dni no se ha podido leer correctamente" ;
 						lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/next.png")));
 						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE); 
+					}else if(SistemaDeVotaciones.getSistema().haVotado(datos.get(0))){
+						Object msj = "Ya has registrado tu voto" ;
+						lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/next.png")));
+						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
 					}else if(!SistemaDeVotaciones.getSistema().esta(datos.get(0))){
 						System.out.println("ESTA: "+datos.get(0)+" "+SistemaDeVotaciones.getSistema().esta(datos.get(0)) );
 						Object msj = "No estás registrado para esta votación" ;
 						lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/next.png")));
 						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
-					}else if(SistemaDeVotaciones.getSistema().haVotado(datos.get(0))){
-						Object msj = "Ya has registrado tu voto" ;
-						lblLogoplay.setIcon(new ImageIcon(Identificarse.class.getResource("/resources/next.png")));
-						JOptionPane.showMessageDialog(null,msj, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
 					}
 					else{
-						//Votar vota = new Votar(datos.get(0), datos.get(1), getCodV());
-						Votar vota = new Votar(datos.get(0), datos.get(1), 1);
+						IntroducirPin pin = new IntroducirPin(datos.get(0), datos.get(1));
+						Dimension pantalla= Toolkit.getDefaultToolkit().getScreenSize();
+						Dimension ventana = pin.getSize();
+						pin.setLocation((pantalla.width-ventana.width)/2, (pantalla.height-ventana.height)/2);
+						pin.setVisible(true);
+						dispose();
+						/*Votar vota = new Votar(datos.get(0), datos.get(1), getCodV());
 						vota.crearOpciones();
 						vota.setVisible(true);
-						dispose();
+						dispose();*/
 					}
 					/*Votar vota = new Votar("79046076K", "MIKEL", 1);
 					vota.crearOpciones();
